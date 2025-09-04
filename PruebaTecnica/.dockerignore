@@ -1,0 +1,7 @@
+.dockerignore__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+tests/__pycache__/

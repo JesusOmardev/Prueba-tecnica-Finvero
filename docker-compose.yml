@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: todo_mongo
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    build:
+      context: ./PruebaTecnica
+    container_name: todo_api
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      MONGO_DB: ${MONGO_DB}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"
+
+  web:
+    build:
+      context: ./PruebaFront
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    container_name: todo_web
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo_data:
